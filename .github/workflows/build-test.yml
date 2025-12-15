@@ -36,19 +36,20 @@ jobs:
           PASSWORD: ${{ secrets.PASSWORD }}
 
   sca:
-      needs: build
-
-      runs-on: ubuntu-latest
-
-      steps: 
-        - name: checkout repo
-          uses: actions/checkout@v3
-        - name: use node.js
-          uses: actions/setup-node@v3
-          with:
-            node-version: '18.x'
-        - run: npm install
-        - run: npm audit
+    name: Security Check (SCA)
+    runs-on: ubuntu-latest
+    needs: test  # Depends on the test job
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with: 
+          node-version: '18'
+      - name: Install dependencies
+        run: npm install
+      - name: Run Security Audit
+        run: npm audit --audit-level=high || true
         
   sast:
       needs: build

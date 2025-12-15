@@ -36,7 +36,7 @@ jobs:
           PASSWORD: ${{ secrets.PASSWORD }}
 
   sca:
-    name: Security Check (SCA)
+    name: sca
     runs-on: ubuntu-latest
     needs: test  # Depends on the test job
     steps:
